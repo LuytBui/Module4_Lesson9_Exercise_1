@@ -20,7 +20,7 @@ public class CustomerServiceImplWithSpringData implements CustomerService {
     private CustomerRepository customerRepository;
 
     @Override
-    public List<Customer> findAll() {
+    public List<Customer> findAll(){
         return streamAll().collect(Collectors.toList());
     }
 
@@ -43,8 +43,12 @@ public class CustomerServiceImplWithSpringData implements CustomerService {
     }
 
     @Override
-    public Optional<Customer> findOne(Long id) {
-        return customerRepository.findById(id);
+    public Optional<Customer> findOne(Long id) throws Exception {
+        Optional<Customer> customerOptional = customerRepository.findById(id);
+        if (!customerOptional.isPresent()) {
+            throw new Exception("customer not found!");
+        }
+        return customerOptional;
     }
 
     @Override

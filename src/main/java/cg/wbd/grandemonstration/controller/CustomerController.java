@@ -38,10 +38,14 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     public ModelAndView showInformation(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("/customers/info");
-        Optional<Customer> customerOptional = customerService.findOne(id);
-        modelAndView.addObject("customer", customerOptional.get());
-        return modelAndView;
+        try {
+            ModelAndView modelAndView = new ModelAndView("/customers/info");
+            Optional<Customer> customerOptional = customerService.findOne(id);
+            modelAndView.addObject("customer", customerOptional.get());
+            return modelAndView;
+        } catch (Exception e) {
+            return new ModelAndView("redirect:/customers");
+        }
     }
 
     @PostMapping
